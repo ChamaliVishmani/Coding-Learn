@@ -6,6 +6,7 @@ import com.chamali.dreamShops.model.Product;
 import com.chamali.dreamShops.repository.CategoryRepository;
 import com.chamali.dreamShops.repository.ProductRepository;
 import com.chamali.dreamShops.request.AddProductRequest;
+import com.chamali.dreamShops.request.ProductUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -54,8 +55,23 @@ public class ProductService implements IProductService{
     }
 
     @Override
-    public void updateProduct(Product product, Long productId) {
+    public Product updateProduct(ProductUpdateRequest request, Long productId) {
+        return productRepository.findById(productId)
+                .map(existingProduct->updateExistingProduct(existingProduct,request))
+                .map(productRepository::save)
+                .orElseThrow(()->new ProductNotFoundException("Product Not Found"));
+    }
 
+    private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request ){
+        existingProduct.setName(request.getName());
+        existingProduct.setBrand(request.getBrand());
+        existingProduct.setPrice(request.getPrice());
+        existingProduct.setInventory(request.getInventory());
+        existingProduct.setDescription(request.getDescription());
+
+        Category category = categoryRepository.findByName(request.getCategory().getName());
+        existingProduct.setCategory(category);
+        return existingProduct;
     }
 
     @Override

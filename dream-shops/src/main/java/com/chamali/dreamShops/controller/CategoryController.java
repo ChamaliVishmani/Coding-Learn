@@ -51,7 +51,7 @@ public class CategoryController {
         }
     }
 
-    @GetMapping("/{name}/category")
+    @GetMapping("/category/{name}/category")
     public ResponseEntity<ApiResponse> getCategoryByName(@PathVariable String name){
         try {
             Category theCategory = categoryService.getCategoryByName(name);
@@ -62,35 +62,26 @@ public class CategoryController {
         }
     }
 
+    @DeleteMapping("/category/{id}/delete")
+    public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long id){
+        try {
+            categoryService.deleteCategoryById(id);
+            return ResponseEntity.ok(new ApiResponse("Found",null));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND)
+                    .body(new ApiResponse(e.getMessage(),null));
+        }
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @PutMapping("/category/{id}/update")
+    public ResponseEntity<ApiResponse> updateCategory(@PathVariable Long id , @RequestBody Category category){
+        try {
+            Category updatedCategory = categoryService.updateCategory(category,id);
+            categoryService.deleteCategoryById(id);
+            return ResponseEntity.ok(new ApiResponse("Update success!",updatedCategory));
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(NOT_FOUND)
+                    .body(new ApiResponse(e.getMessage(),null));
+        }
+    }
 }

@@ -6,6 +6,7 @@ import com.chamali.dreamShops.model.Image;
 import com.chamali.dreamShops.response.ApiResponse;
 import com.chamali.dreamShops.service.image.IImageService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -20,6 +21,7 @@ import java.util.List;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("${api.prefix}/images")
@@ -28,6 +30,7 @@ public class ImageController {
 
     @PostMapping("/upload")
     public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files,@RequestParam Long productId){
+        log.info("Request to save images for product id: {}",productId);
         try{
             List<ImageDto> imageDtos = imageService.saveImage(files,productId);
             return ResponseEntity.ok(new ApiResponse("Upload Success",imageDtos));

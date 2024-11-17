@@ -1,5 +1,6 @@
 package com.chamali.dreamShops.service.product;
 
+import com.chamali.dreamShops.dto.ProductDto;
 import com.chamali.dreamShops.model.Product;
 import com.chamali.dreamShops.request.AddProductRequest;
 import com.chamali.dreamShops.request.ProductUpdateRequest;
@@ -18,4 +19,8 @@ public interface IProductService {
     List<Product> getProductsByName(String name);
     List<Product> getProductsByBrandAndName(String brand, String name);
     Long countProductsByBrandAndName(String brand, String name);
+
+    List<ProductDto> getCOnvertedProducts(List<Product> products);
+
+    ProductDto convertToDto(Product product);
 }

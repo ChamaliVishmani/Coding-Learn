@@ -8,10 +8,12 @@ import com.chamali.dreamShops.repository.CartItemRepository;
 import com.chamali.dreamShops.repository.CartRepository;
 import com.chamali.dreamShops.service.product.IProductService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CartItemService implements ICartItemService {
@@ -24,6 +26,7 @@ public class CartItemService implements ICartItemService {
 
     @Override
     public void addItemToCart(Long cartId, Long productId, int quantity) {
+        log.info("addItemToCart method started for cartId: {} and productId: {}", cartId, productId);
         Cart cart = cartService.getCart(cartId);
         Product product = productService.getProductById(productId);
         CartItem cartItem = cart.getCartItems()

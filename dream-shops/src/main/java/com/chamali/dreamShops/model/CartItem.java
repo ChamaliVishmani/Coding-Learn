@@ -33,4 +33,9 @@ public class CartItem {
         this.totalPrice = this.unitPrice.multiply(new BigDecimal(this.quantity));
     }
 
+    @Override
+    public String toString() {
+        return "CartItem [id=" + id + ", quantity=" + quantity + ", unitPrice=" + unitPrice + ", totalPrice=" + totalPrice + "]";
+    }
+
 }

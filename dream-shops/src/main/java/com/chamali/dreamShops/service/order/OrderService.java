@@ -7,12 +7,14 @@ import com.chamali.dreamShops.model.OrderItem;
 import com.chamali.dreamShops.model.Product;
 import com.chamali.dreamShops.repository.OrderRepository;
 import com.chamali.dreamShops.repository.ProductRepository;
+import com.chamali.dreamShops.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.lang.module.ResolutionException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -20,15 +22,25 @@ import java.util.List;
 public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
+    private final CartService cartService;
 
     @Override
     public Order placeOrder(Long userId) {
-        return null;
+        Cart cart = cartService.getCartByUserId(userId);
+
+        Order order = createOrder(cart);
+        List<OrderItem> orderItems = createOrderItems(order, cart);
+        order.setOrderItems(new HashSet<>(orderItems));
+        order.setTotalAmount(calculateTotalAmount(orderItems));
+        Order savedOrder = orderRepository.save(order);
+        cartService.clearCart(cart.getId());
+
+        return savedOrder;
     }
 
     private Order createOrder(Cart cart) {
         Order order = new Order();
-        // TODO : set the user
+        order.setUser(cart.getUser());
         order.setOrderStatus(OrderStatus.PENDING);
         order.setOrderDate(LocalDate.now());
         return order;
@@ -60,5 +72,10 @@ public class OrderService implements IOrderService {
     public Order getOrder(Long orderId) {
         return orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResolutionException("Order not found"));
+    }
+
+    @Override
+    public List<Order> getUserOrders(Long userId) {
+        return orderRepository.findByUserId(userId);
     }
 }

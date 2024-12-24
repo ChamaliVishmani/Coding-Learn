@@ -4,6 +4,7 @@ import com.chamali.dreamShops.exceptions.ResourceNotFoundException;
 import com.chamali.dreamShops.model.Cart;
 import com.chamali.dreamShops.repository.CartItemRepository;
 import com.chamali.dreamShops.repository.CartRepository;
+import com.chamali.dreamShops.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ public class CartService implements ICartService {
     private final CartItemRepository cartItemRepository;
 
     private final AtomicLong cartIdGenerator = new AtomicLong(0);
+    private final UserRepository userRepository;
 
     @Override
     public Cart getCart(Long id) {
@@ -54,5 +56,10 @@ public class CartService implements ICartService {
         newCartId = cartRepository.save(cart).getId();
         log.info("New cart saved with id: {}", newCartId);
         return newCartId;
+    }
+
+    @Override
+    public Cart getCartByUserId(Long userId) {
+        return cartRepository.findByUserId(userId);
     }
 }

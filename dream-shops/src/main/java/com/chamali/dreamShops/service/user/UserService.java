@@ -1,5 +1,6 @@
 package com.chamali.dreamShops.service.user;
 
+import com.chamali.dreamShops.dto.UserDto;
 import com.chamali.dreamShops.exceptions.AlreadyExistsException;
 import com.chamali.dreamShops.exceptions.ResourceNotFoundException;
 import com.chamali.dreamShops.model.User;
@@ -7,6 +8,7 @@ import com.chamali.dreamShops.repository.UserRepository;
 import com.chamali.dreamShops.request.CreateUserRequest;
 import com.chamali.dreamShops.request.UserUpdateRequest;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService implements IUserService {
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public User getUserById(Long userId) {
@@ -53,5 +56,10 @@ public class UserService implements IUserService {
                 .ifPresentOrElse(userRepository::delete, () -> {
                     throw new ResourceNotFoundException("User not found");
                 });
+    }
+
+    @Override
+    public UserDto convertUserToDto(User user) {
+        return modelMapper.map(user, UserDto.class);
     }
 }

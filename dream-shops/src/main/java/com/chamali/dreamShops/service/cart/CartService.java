@@ -4,6 +4,7 @@ import com.chamali.dreamShops.exceptions.ResourceNotFoundException;
 import com.chamali.dreamShops.model.Cart;
 import com.chamali.dreamShops.repository.CartItemRepository;
 import com.chamali.dreamShops.repository.CartRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class CartService implements ICartService {
         return cartRepository.save(cart);
     }
 
+    @Transactional
     @Override
     public void clearCart(Long id) {
         Cart cart = getCart(id);

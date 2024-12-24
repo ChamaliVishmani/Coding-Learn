@@ -1,6 +1,8 @@
 package com.chamali.dreamShops.service.order;
 
+import com.chamali.dreamShops.dto.OrderDto;
 import com.chamali.dreamShops.enums.OrderStatus;
+import com.chamali.dreamShops.exceptions.ResourceNotFoundException;
 import com.chamali.dreamShops.model.Cart;
 import com.chamali.dreamShops.model.Order;
 import com.chamali.dreamShops.model.OrderItem;
@@ -9,9 +11,9 @@ import com.chamali.dreamShops.repository.OrderRepository;
 import com.chamali.dreamShops.repository.ProductRepository;
 import com.chamali.dreamShops.service.cart.CartService;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.lang.module.ResolutionException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -23,6 +25,7 @@ public class OrderService implements IOrderService {
     private final OrderRepository orderRepository;
     private final ProductRepository productRepository;
     private final CartService cartService;
+    private final ModelMapper modelMapper;
 
     @Override
     public Order placeOrder(Long userId) {
@@ -69,13 +72,19 @@ public class OrderService implements IOrderService {
     }
 
     @Override
-    public Order getOrder(Long orderId) {
+    public OrderDto getOrder(Long orderId) {
         return orderRepository.findById(orderId)
-                .orElseThrow(() -> new ResolutionException("Order not found"));
+                .map(this::convertToDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Order not found"));
     }
 
     @Override
-    public List<Order> getUserOrders(Long userId) {
-        return orderRepository.findByUserId(userId);
+    public List<OrderDto> getUserOrders(Long userId) {
+        List<Order> orders = orderRepository.findByUserId(userId);
+        return orders.stream().map(this::convertToDto).toList();
+    }
+
+    private OrderDto convertToDto(Order order) {
+        return modelMapper.map(order, OrderDto.class);
     }
 }

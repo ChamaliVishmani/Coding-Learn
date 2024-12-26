@@ -2,16 +2,16 @@ package com.chamali.dreamShops.service.cart;
 
 import com.chamali.dreamShops.exceptions.ResourceNotFoundException;
 import com.chamali.dreamShops.model.Cart;
+import com.chamali.dreamShops.model.User;
 import com.chamali.dreamShops.repository.CartItemRepository;
 import com.chamali.dreamShops.repository.CartRepository;
-import com.chamali.dreamShops.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -19,9 +19,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class CartService implements ICartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
-
-    private final AtomicLong cartIdGenerator = new AtomicLong(0);
-    private final UserRepository userRepository;
 
     @Override
     public Cart getCart(Long id) {
@@ -48,14 +45,13 @@ public class CartService implements ICartService {
     }
 
     @Override
-    public Long initializeNewCart() {
-        log.info("initializeNewCart method started");
-        Cart cart = new Cart();
-        Long newCartId = cartIdGenerator.incrementAndGet();
-        cart.setId(newCartId);
-        newCartId = cartRepository.save(cart).getId();
-        log.info("New cart saved with id: {}", newCartId);
-        return newCartId;
+    public Cart initializeNewCart(User user) {
+        return Optional.ofNullable(getCartByUserId(user.getId()))
+                .orElseGet(() -> {
+                    Cart cart = new Cart();
+                    cart.setUser(user);
+                    return cartRepository.save(cart);
+                });
     }
 
     @Override

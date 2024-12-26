@@ -1,9 +1,12 @@
 package com.chamali.dreamShops.controller;
 
 import com.chamali.dreamShops.exceptions.ResourceNotFoundException;
+import com.chamali.dreamShops.model.Cart;
+import com.chamali.dreamShops.model.User;
 import com.chamali.dreamShops.response.ApiResponse;
 import com.chamali.dreamShops.service.cart.ICartItemService;
 import com.chamali.dreamShops.service.cart.ICartService;
+import com.chamali.dreamShops.service.user.IUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -18,18 +21,18 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class CartItemController {
     private final ICartItemService cartItemService;
     private final ICartService cartService;
+    private final IUserService userService;
 
 
     @PostMapping("/item/add")
-    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam(required = false) Long cartId,
-                                                     @RequestParam Long productId,
+    public ResponseEntity<ApiResponse> addItemToCart(@RequestParam Long productId,
                                                      @RequestParam Integer quantity) {
         log.info("Request to add item to cart: productId: {}, quantity: {}", productId, quantity);
         try {
-            if (cartId == null) {
-                cartId = cartService.initializeNewCart();
-            }
-            cartItemService.addItemToCart(cartId, productId, quantity);
+            User user = userService.getUserById(4L);
+            Cart cart = cartService.initializeNewCart(user);
+
+            cartItemService.addItemToCart(cart.getId(), productId, quantity);
             return ResponseEntity.ok(new ApiResponse("Add item success!", null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND)

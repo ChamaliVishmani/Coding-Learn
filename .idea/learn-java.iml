@@ -2,7 +2,23 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
+    <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.idea/inspectionProfiles" />
+      <excludeFolder url="file://$MODULE_DIR$/DSA/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/DSA/env/Lib" />
+      <excludeFolder url="file://$MODULE_DIR$/DSA/env/Scripts" />
+      <excludeFolder url="file://$MODULE_DIR$/design_patterns/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/design_patterns/target" />
+      <excludeFolder url="file://$MODULE_DIR$/dream-shops/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/dream-shops/target" />
+      <excludeFolder url="file://$MODULE_DIR$/first-react/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-python/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-python/.venv/Lib" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcode-python/.venv/Scripts" />
+      <excludeFolder url="file://$MODULE_DIR$/leetcodeJava/target" />
+      <excludeFolder url="file://$MODULE_DIR$/spring-boot-example/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/spring-boot-example/target" />
+    </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

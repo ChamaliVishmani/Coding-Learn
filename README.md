@@ -8,6 +8,9 @@
 ### DSA
 [Algorithms and Data Structures Tutorial - Full Course for Beginners](https://youtu.be/8hly31xKli0?si=Uf0p0KpaiWqE2GA9)
 
+## leetcode-python
+* LeetCode answers in python
+
 ## Completed
 
 ### dream-shops

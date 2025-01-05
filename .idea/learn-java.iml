@@ -18,8 +18,9 @@
       <excludeFolder url="file://$MODULE_DIR$/leetcodeJava/target" />
       <excludeFolder url="file://$MODULE_DIR$/spring-boot-example/.idea" />
       <excludeFolder url="file://$MODULE_DIR$/spring-boot-example/target" />
+      <excludeFolder url="file://$MODULE_DIR$/DSA/env" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="Python 3.8 virtualenv at D:\GitHub\Coding-Learn\DSA\env" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

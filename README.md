@@ -11,6 +11,9 @@
 ### leetcode-python
 * LeetCode answers in python
 
+### java-concepts
+* concepts in java
+
 ## Completed
 
 ### dream-shops
@@ -18,6 +21,9 @@
 
 ### design_patterns 
 [How to Use Design Patterns in Java with Spring Boot – Explained with Code Examples](https://www.freecodecamp.org/news/how-to-use-design-patterns-in-java-with-spring-boot/)
+
+### java-concepts
+* Generics
 
 ## Archived
 
